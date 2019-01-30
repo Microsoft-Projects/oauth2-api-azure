@@ -62,3 +62,12 @@ typings/
 
 # built files
 lib
+
+# vscode generated files 
+#.vscode
+*.code-workspace
+
+#Visual Studio user's files
+*.njsproj*
+.vscode/*.*
+
