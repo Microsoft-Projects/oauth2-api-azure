@@ -1,7 +1,8 @@
 {
-  "name": "node-oauth-azure",
-  "version": "0.0.2",
-  "description": "OAuth v2 implementation with Azure AD for node.js and typescript.",
+  "name": "oauth2-api-azure",
+  "description": "OAuth2 Azure AD wrapper supporting non-interactive and interactive scenarios for typescript.",
+  "version": "0.0.1",
+  "author": "Danny Garber",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha --require ts-node/register test/**/*.test.ts",
@@ -17,7 +18,6 @@
   "keywords": [
     "OAuth"
   ],
-  "author": "Danny Garber",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Microsoft-Projects/node-oauth-azure/issues"
