@@ -1,22 +1,51 @@
 import express = require("express");
 import session from "express-session";
+import dotenv from "dotenv";
+import envalid from "envalid";
 import * as oauth from "../../../lib/index";
 import * as authentication from "../../../lib/middleware/security/authentication";
 import { IAuthSettings, SecurityStrategies } from "../../../lib/types";
+
+dotenv.config();
+
+const env = envalid.cleanEnv(process.env, {
+    TENANT_ID: envalid.str({
+        example: "d197a05e-...",
+        desc: "Azure AD tenant name or ID. e.g. contoso.onmicrosoft.com"
+    }),
+    CLIENT_ID: envalid.str({
+        example: "d197a05e-...",
+        desc: "The APP ID of the client app that was registered and configured to have access to the Azure resource"
+    }),
+    CLIENT_SECRET: envalid.str({
+        example: "d197a05e-...",
+        desc: "The Client Secret of the Client App above"
+    }),
+    RESOURCE_ID: envalid.str({
+        example: "d197a05e-...",
+        desc: "The unique APP ID of the Azure Web API to obtain access to"
+    }),
+    PORT: envalid.port({
+        example: "3000",
+        default: 3000,
+        desc: "The localhost port on which this sample would run"
+    })
+});
 
 let app = express();
 app.use(express.json());
 app.use(express.urlencoded());
 
-const port = 3000; // default port to listen
-const baseApiUrl = `/api`;
+const hostname = "http://localhost";
+const port = env.PORT; // default port to listen
+const baseApiUrl = "/api"; // the based relative uri for this Web API
 
 const authSettings: IAuthSettings = {
-    tenant: "d197a05e-5952-4466-88ca-1bc6d05eee59",
-    clientId: "3d95c545-6c63-4c95-9ae0-7ecc61774fd3",
-    clientSecret: "#])?%DuL_}6[T^E/};/}a{n-&**K%-s24_ra*]A8lxkc#}-)Gn(}M;PCD1./{${",
-    apiAppId: "0472a99e-fc93-4804-be57-e7b99ed6c057",
-    redirectUri: `http://localhost:${port}${baseApiUrl}/oauth/getAToken`,
+    tenant: env.TENANT_ID,
+    clientId: env.CLIENT_ID,
+    clientSecret: env.CLIENT_SECRET,
+    apiAppId: env.RESOURCE_ID,
+    redirectUri: `${hostname}:${port}${baseApiUrl}`,
     validateIssuer: false,
     isB2C: false,
     issuer: "",
@@ -53,7 +82,7 @@ oauth.authInit(authSettings, validateUserRoleCallback);
 const authMiddleware = new authentication.OAuthMiddleware(
     authSettings,
     passportAuthOptions,
-    `http://localhost:${port}`,
+    `${hostname}:${port}`,
     baseApiUrl);
 
 // Couple the app to the Auth routes
@@ -61,12 +90,13 @@ app = authMiddleware.setAppHandler(app);
 
 // define a route handler for the default home page
 app.get("/", (req, res) => {
-    res.send(`API Home Page. Try to call API endpoint with your name: http://localhost:${port}/api/hello/<your name>`);
+    res.send(`API Home Page. Try to call API endpoint with your name: ${hostname}:${port}/api/hello/<your name>`);
 });
 
 app.get(
     `${baseApiUrl}/hello/:name`,
-    authMiddleware.authenticate(SecurityStrategies.AUTH_CODE),
+    // here goes the Azure OAuth2 Middleware
+    authMiddleware.authenticate(SecurityStrategies.BEARER),
     (request, response) => {
     const name = request.params.name;
 
@@ -99,7 +129,7 @@ app.use((err: any, req, res, next) => {
 
 app.listen(port, () => {
     // tslint:disable-next-line:no-console
-    console.log(`server started at http://localhost:${port}`);
+    console.log(`server started at ${hostname}:${port}`);
 });
 
 async function validateUserRoleCallback(

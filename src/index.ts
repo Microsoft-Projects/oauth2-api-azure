@@ -16,7 +16,7 @@ export async function authInit(
         clientID: authSettings.clientId,
         responseType: "code id_token",
         responseMode: "form_post",
-        redirectUrl: authSettings.redirectUri,
+        redirectUrl: `${authSettings.redirectUri}/oauth/getAToken`,
         allowHttpForRedirectUrl: authSettings.allowHttpForRedirectUrl,
         clientSecret: authSettings.clientSecret,
         validateIssuer: authSettings.validateIssuer,
