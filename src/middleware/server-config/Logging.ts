@@ -43,6 +43,9 @@ class Telemetry {
      * event: string
      **/
     public trackEvent(name: string, event: string) {
+        if (this.logger === undefined) {
+            this.initialize();
+        }
         // Write log
         this.logger.info({ event: name }, event);
     }
@@ -52,6 +55,9 @@ class Telemetry {
      * exception: Error
      **/
     public trackException(exception: Error) {
+        if (this.logger === undefined) {
+            this.initialize();
+        }
         // Write log
         this.logger.error({ error: exception });
     }
@@ -60,6 +66,9 @@ class Telemetry {
      * trackTrace
      */
     public trackTrace(message: string) {
+        if (this.logger === undefined) {
+            this.initialize();
+        }
         // Write log
         this.logger.trace({ message });
     }

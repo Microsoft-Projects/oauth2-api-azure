@@ -4,9 +4,11 @@
   "description": "Sample API with OAuth security",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && ts-node ./src/index",
-    "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start-sample1": "npm run build && ts-node ./src/oauth-bearer",
+    "start-sample2": "npm run build && ts-node ./src/oauth-user-signin",
+    "build": "npm run clean && tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -r dist && mkdir dist"
   },
   "author": "Danny Garber <dannyg@microsoft.com> (https://www.linkedin.com/in/danny-garber-19b535/)",
   "license": "ISC",

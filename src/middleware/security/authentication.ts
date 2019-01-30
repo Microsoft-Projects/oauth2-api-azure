@@ -1,7 +1,7 @@
 import express = require("express");
 import session from "express-session";
 import passport = require("passport");
-import { AuthenticationContext, TokenResponse } from "adal-node";
+import { AuthenticationContext, TokenResponse, ErrorResponse } from "adal-node";
 import { validateAudience } from "./token-helpers";
 import { AuthRouter } from "../../routes";
 import { Logger } from "../../middleware/server-config/Logging";
@@ -17,10 +17,14 @@ export class OAuthMiddleware {
     private passportAuthOptions: IPassportOptions;
     private baseAuthRoute: string;
 
-    constructor(authSettings: IAuthSettings, passportOptions: IPassportOptions, baseAuthRoute: string) {
-        this.authRedirectUri = `${baseAuthRoute}/oauth/getAToken`;
-        this.signInUrl = `${baseAuthRoute}/oauth/signin`;
-        this.refreshTokenUrl = `${baseAuthRoute}/oauth/refreshToken`;
+    constructor(
+        authSettings: IAuthSettings,
+        passportOptions: IPassportOptions,
+        hostname: string,
+        baseAuthRoute: string) {
+        this.authRedirectUri = `${hostname}${baseAuthRoute}/oauth/getAToken`;
+        this.signInUrl = `${hostname}${baseAuthRoute}/oauth/signin`;
+        this.refreshTokenUrl = `${hostname}${baseAuthRoute}/oauth/refreshToken`;
         this.authSettings = authSettings;
         this.passportAuthOptions = passportOptions;
         this.baseAuthRoute = baseAuthRoute;
@@ -149,44 +153,37 @@ export class OAuthMiddleware {
                 case SecurityStrategies.AUTH_CODE:
                     // If user's auth code is provided in the header,
                     // then verify the token and continue to the next middleware
-                    if (request.headers["x-auth-code"]) {
+                    if (request.headers["x-auth-code"] || request.session.authCode) {
+                        const authCode = request.session.authCode || request.headers["x-auth-code"] as string;
                         // If the user has already been signed in,
                         // try to obtain the JWT token with the claims
                         // that would allow accessing the API resource
                         try {
                             const authInfo = (await this.getAccessTokenSilently(
                                 request,
-                                request.headers["x-auth-code"] as string
+                                authCode
                             )) as TokenResponse;
                             if (validateAudience(authInfo.accessToken, this.authSettings.apiAppId)) {
+                                // If the user has been successfully authenticated,
+                                // grant access to the requested API endpoint
                                 next();
                             } else {
                                 return next(HttpErrorHandler.Unauthorized());
                             }
                         } catch (error) {
-                            return next(HttpErrorHandler.Unauthorized());
-                        }
-                    } else {
-                        if (request.session) {
-                            // If the user has already been signed in,
-                            // grant access to the requested API endpoint
-                            if (request.session.authCode) {
+                            if (error.error_codes.find(c => c === 54005)) { // the OAuth code has already been redeemed
+                                // grant access to the requested API endpoint
                                 next();
                             } else {
-                                // If user hasn't been authenticated yet,
-                                // redirect to the sign-in flow
-                                request.session.redirectUrl = request.originalUrl;
-                                // Redirect to the sign-in api
-                                return response.redirect(this.signInUrl);
+                                return next(HttpErrorHandler.Unauthorized(error.message));
                             }
-                        } else {
-                            // return to the error handler
-                            return next(
-                                HttpErrorHandler.Unauthorized(
-                                    "No session cookies were enabled"
-                                )
-                            );
                         }
+                    } else {
+                        // If user hasn't been authenticated yet,
+                        // redirect to the sign-in flow
+                        request.session.redirectUrl = request.originalUrl;
+                        // Redirect to the sign-in api
+                        return response.redirect(this.signInUrl);
                     }
 
                     break;
@@ -202,16 +199,16 @@ export class OAuthMiddleware {
     private async getAccessTokenSilently(
         request: any,
         authCode?: string
-    ): Promise<any> {
-        return new Promise(async (resolve, reject) => {
-
-            const authorityUrl = `https://login.microsoftonline.com/${this.authSettings.tenant}`;
-            const authContext = new AuthenticationContext(authorityUrl);
+    ): Promise<TokenResponse | ErrorResponse> {
+        return new Promise<TokenResponse | ErrorResponse>(async (resolve, reject) => {
 
             try {
+                const authorityUrl = `https://login.microsoftonline.com/${this.authSettings.tenant}`;
+                const authContext = new AuthenticationContext(authorityUrl);
+
                 if (authCode) {
                     // Attempt to obtain the OAuth token using user's credentials
-                    authContext.acquireTokenWithAuthorizationCode(
+                    await authContext.acquireTokenWithAuthorizationCode(
                         authCode,
                         this.authRedirectUri,
                         this.authSettings.apiAppId,
@@ -220,14 +217,14 @@ export class OAuthMiddleware {
                         (err, res) => {
                             if (err) {
                                 Logger.trackException(err);
-                                reject(err);
+                                reject(res);
                             }
                             resolve(res);
                         }
                     );
                 } else {
                     // If authCode is not provided, attempt to obtain the OAuth token using client credentials
-                    authContext.acquireTokenWithClientCredentials(
+                    await authContext.acquireTokenWithClientCredentials(
                         this.authSettings.apiAppId,
                         this.authSettings.clientId,
                         this.authSettings.clientSecret,

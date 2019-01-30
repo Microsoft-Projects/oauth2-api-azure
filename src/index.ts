@@ -9,13 +9,12 @@ export const NonceLifetime = 600;
 
 export async function authInit(
     authSettings: IAuthSettings,
-    passToRBACCallback: any,
-    baseAuthRoute: string): Promise<void> {
+    passToRBACCallback: any): Promise<void> {
 
     const oidsOptions: azureAd.IOIDCStrategyOptionWithRequest = {
         identityMetadata: `https://login.microsoftonline.com/${authSettings.tenant}/.well-known/openid-configuration`,
         clientID: authSettings.clientId,
-        responseType: "id_token code",
+        responseType: "code id_token",
         responseMode: "form_post",
         redirectUrl: authSettings.redirectUri,
         allowHttpForRedirectUrl: authSettings.allowHttpForRedirectUrl,
@@ -95,7 +94,8 @@ export async function authInit(
             if (request.session) {
                 // redirect to the requested resource
                 request.session.idToken = request.body.id_token;
-                request.session.authCode = access_token;
+                request.session.authCode = request.body.code;
+                request.session.access_token = access_token;
                 request.session.refresh_token = refresh_token;
             }
 

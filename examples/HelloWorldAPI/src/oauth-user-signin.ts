@@ -16,11 +16,11 @@ const authSettings: IAuthSettings = {
     clientId: "3d95c545-6c63-4c95-9ae0-7ecc61774fd3",
     clientSecret: "#])?%DuL_}6[T^E/};/}a{n-&**K%-s24_ra*]A8lxkc#}-)Gn(}M;PCD1./{${",
     apiAppId: "0472a99e-fc93-4804-be57-e7b99ed6c057",
-    redirectUri: `http://localhost:${port}${baseApiUrl}/auth/getAToken`,
+    redirectUri: `http://localhost:${port}${baseApiUrl}/oauth/getAToken`,
     validateIssuer: false,
     isB2C: false,
     issuer: "",
-    scope: "",
+    scope: "offline_access",
     allowHttpForRedirectUrl: true,
     loggingLevel: "error",
     logginNoPII: false,
@@ -40,20 +40,21 @@ const passportAuthOptions = {
 // app.use(cookieParser());
 app.use(
     session({
-        secret: "HelloWorld",
+        secret: "HelloOAuth2",
         resave: false,
         saveUninitialized: true
     })
 );
 
 // initialize OAuth passport strategy
-oauth.authInit(authSettings, validateUserRoleCallback, baseApiUrl);
+oauth.authInit(authSettings, validateUserRoleCallback);
 
 // initialize OAuth middleware
 const authMiddleware = new authentication.OAuthMiddleware(
     authSettings,
     passportAuthOptions,
-    `http://localhost:${port}${baseApiUrl}`);
+    `http://localhost:${port}`,
+    baseApiUrl);
 
 // Couple the app to the Auth routes
 app = authMiddleware.setAppHandler(app);
@@ -65,7 +66,7 @@ app.get("/", (req, res) => {
 
 app.get(
     `${baseApiUrl}/hello/:name`,
-    authMiddleware.authenticate(SecurityStrategies.BEARER),
+    authMiddleware.authenticate(SecurityStrategies.AUTH_CODE),
     (request, response) => {
     const name = request.params.name;
 
@@ -77,23 +78,6 @@ app.get(
         request.session.userName = name;
         response.json({
             "message": "Hello, " + name
-        });
-    }
-});
-
-app.get(
-    `${baseApiUrl}/name`,
-    authMiddleware.authenticate(SecurityStrategies.AUTH_CODE),
-    (request, response) => {
-    const name = request.session.userName;
-
-    if (!isNaN(name)) {
-        response
-            .status(400)
-            .send("No name was stored. Try to call /hello API endpoint with the name");
-    } else {
-        response.json({
-            "message": "Your name is " + name
         });
     }
 });
