@@ -1,0 +1,21 @@
+{
+  "name": "helloworldapi",
+  "version": "1.0.0",
+  "description": "Sample API with OAuth security",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build && ts-node ./src/index",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Danny Garber <dannyg@microsoft.com> (https://www.linkedin.com/in/danny-garber-19b535/)",
+  "license": "ISC",
+  "dependencies": {
+    "ts-node": "^8.0.2"
+  },
+  "devDependencies": {
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "typescript": "^3.2.4"
+  }
+}

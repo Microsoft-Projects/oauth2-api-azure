@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "outDir": "./lib",
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "declaration": true,
+        "target": "es6",
+        "strict": true,
+        "noImplicitAny": false,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "baseUrl": ".",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "resolveJsonModule": true,
+        "paths": {
+            "*": ["node_modules/*"]
+        },
+        "types": ["mocha", "node"]
+    },
+    "exclude": ["./node_modules", "./public"],
+    "include": ["src"]
+}
