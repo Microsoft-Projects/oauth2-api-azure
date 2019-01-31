@@ -4,10 +4,9 @@ Prerequisites
 Before starting, ensure you have the following permissions:
 
 -   Azure AD Global Admin in Azure environment or
-
-> If you are performing these steps as the external Azure AD guest, the
-> Azure AD must have the App Registrations by users option enabled.
-
+ If you are performing these steps as the external Azure AD guest, the
+ Azure AD must have the App Registrations by users option enabled.
+![doc/assets/doc01pic01.png](doc/assets/doc01pic01.png)
 -   PostMan client app -- it will be required to test and validate your
     app registration was successful. You can download and install
     PostMan application for the platform of your choice from this
@@ -21,21 +20,22 @@ The Objectives
 > flow. The table below is your checklist where you will be filling the
 > information collected in various steps of the process.
 
-  Application      Property Setting       Value
-  ---------------- ---------------------- -------
-  Data API         Name                   
-                   Application Type       
-                   Sign-on URL            
-                   Application ID         
-                   App Id URI             
-                   Manifest               
-  API Client App   Name                   
-                   Application Type       
-                   Sign-on URL            
-                   Application ID         
-                   Required Permissions   
-                   API Access Key         
-                   Manifest               
+| Application    | Property Setting     | Value |
+|----------------|----------------------|-------|
+| Data API       | Name                 |       |
+|                | Application Type     |       |
+|                | Sign-on URL          |       |
+|                | Application ID       |       |
+|                | App Id URI           |       |
+|                | Manifest             |       |
+| API Client App | Name                 |       |
+|                | Application Type     |       |
+|                | Sign-on URL          |       |
+|                | Application ID       |       |
+|                | Required Permissions |       |
+|                | API Access Key       |       |
+|                | Manifest             |
+  
 
 Steps
 =====
@@ -58,7 +58,7 @@ Register Data API in AD
     b.  **Application Type**: Web app/API
 
     c.  **Sign-on URL**:
-        [https://customwebapi.azurewebsites.net](https://jberdatapi.azurewebsites.net)
+        [https://customwebapi.azurewebsites.net](https://customwebapi.azurewebsites.net)
         (it can be any valid URI)
 
 5.  Click 'Create' button.
@@ -73,7 +73,7 @@ Register Data API in AD
 9.  Change the value of the App ID URI to the unique URI that Data API
     will use as the audience identifier when presenting itself to the
     client apps. It can be changed later.
-    [https://contoso.onmicrosoft.com/webapi](https://jetblue.onmicrosoft.com/datapi)
+    [https://contoso.onmicrosoft.com/webapi](https://contoso.onmicrosoft.com/datapi)
 
 10. Click 'Save'
 
@@ -115,6 +115,7 @@ Register Data API in AD
 14. Click 'Save'. If you received an error, make sure you've copied the
     lines in the Step 12 all correctly and the manifest is in a properly
     formed JSON format. Then, try again to save it.
+
 
 Register Client APP in AD
 -------------------------
@@ -222,6 +223,7 @@ URL\>&response\_type=code&prompt=admin\_consent**
 4.  You will be redirected to your organization's login screen where you
     would need to provide your login credentials of the user with the
     Global Admin permissions to your Azure AD.
+![doc/assets/doc01pic02.png](doc/assets/doc01pic02.png)
 
 5.  Once logged in, you will be prompted to consent on giving the
     permissions to your Azure Data API Client App to access the Azure
@@ -229,6 +231,7 @@ URL\>&response\_type=code&prompt=admin\_consent**
     profile', but you can safely ignore this was never requested and
     won't be executed on your behalf. It is rather a UI misconception
     than the real permission request.
+![doc/assets/doc01pic03.png](doc/assets/doc01pic03.png)
 
 6.  Click 'Accept' button.
 
@@ -264,18 +267,19 @@ Test Registration in PostMan
 
 9.  Enter the following values into the body's key/value settings:
 
-  Key              Value
-  ---------------- -------------------------------------------
-  client\_id       7878...
-  client\_secret   MyMWO...
-  resource         https://\<tenant\>.onmicrosoft.com/webapi
-  grant\_type      client\_credentials
+| Key           | Value                                        |
+|---------------|----------------------------------------------|
+| client_id     | 7481b2a1-7dfc-477a-a21b-e1c854114863         |
+| client_secret | MyMWOGH8l4tUeR9NTPCilamf3/k9SZxIk5/B+dPQWUM= |
+| resource      | https://contoso.onmicrosoft.com/webapi       |
+| grant_type    | client_credentials                           |  
 
 10. Click 'Send' button.
 
 11. Upon successful authentication you should receive in the Body of the
     response message the JWT token 'access\_token' among the other
     properties. It will be similar to this screenshot:
+![doc/assets/doc01pic04.png](doc/assets/doc01pic04.png)
 
 12. This access token will then be used to authenticate the client
     application against Azure Azure Active Directory and get permissions
@@ -295,6 +299,7 @@ Test Registration in PostMan
     should state: "ImporterProcess". That means this token allows access
     only and only to the process with ImporterProcess, which, in our
     case, is our Data API service.
+![doc/assets/doc01pic05.png](doc/assets/doc01pic05.png)
 
 Congratulations! You've completed all steps required to register Data
 API and the client application in your Azure Active Directory.

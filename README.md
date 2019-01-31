@@ -52,7 +52,7 @@ $ npm install oauth2-api-azure
 ```
 
 Before beginning, you must configure and register your Web API in your Azure AD subscription. It is also expected that you are a Global Admin on your Azure AD.
-Follow our [Azure AD Configuration Guide](GetStartedGuide.md) for more details.
+Follow our [Azure AD Configuration Guide](AzureADConfigurationGuide.md) for more details.
 
 Then, use our [sample projects](./examples) with your Azure AD settings to run and test your secure Web API.
 
