@@ -13,11 +13,12 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "resolveJsonModule": true,
+        "lib": [ "es6" ],
         "paths": {
             "*": ["node_modules/*"]
         },
         "types": ["mocha", "node"]
     },
-    "exclude": ["./node_modules", "./public"],
-    "include": ["src"]
+    "exclude": ["./node_modules"],
+    "include": ["src", "test"]
 }

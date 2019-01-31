@@ -32,24 +32,34 @@ export class OAuthMiddleware {
     }
 
     public setAppHandler(app: express.Express): express.Express {
-        this.app = app;
-        // Must use session for storing auth values
-        this.app.use(
-            session({
-                secret: "api-oauth-azure",
-                resave: false,
-                saveUninitialized: true
-            })
-        );
+        try {
+            this.app = app;
+            // Must use session for storing auth values
+            this.app.use(
+                session({
+                    secret: "api-oauth-azure",
+                    resave: false,
+                    saveUninitialized: true
+                })
+            );
 
-        // initialize OAuth routers
-        const authRouter = new AuthRouter(this.baseAuthRoute);
-        authRouter.addAuthRoutes();
+            if (this.baseAuthRoute === undefined || this.baseAuthRoute.length === 0) {
+                throw new Error("Missing base API Uri");
+            }
 
-        // add the OAuth router to the express app
-        this.app.use(this.baseAuthRoute, authRouter.getRouter());
+            // initialize OAuth routers
+            const authRouter = new AuthRouter(this.baseAuthRoute);
+            authRouter.addAuthRoutes();
 
-        return this.app;
+            // add the OAuth router to the express app
+            this.app.use(this.baseAuthRoute, authRouter.getRouter());
+
+            return this.app;
+
+        } catch (error) {
+            Logger.trackException(error);
+            throw error;
+        }
     }
 
     public authenticate(securityStrategy: SecurityStrategies) {
