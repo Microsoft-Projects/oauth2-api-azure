@@ -1,8 +1,7 @@
-OAuth2 API Azure
+**OAuth2 API Azure**
 (https://github.com/Microsoft-Projects/oauth2-api-azure/)
 
   A node OAuth2 API on Azure wrapper supporting non-interactive and interactive authentication flow scenarios for [typescript](https://www.typescriptlang.org/).
-
 
 ```js
 import * as oauth from "oauth2-api-azure";
