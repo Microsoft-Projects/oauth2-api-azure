@@ -1,28 +1,37 @@
-  ______        ___      __    __  .___________. __    __   ___   
- /  __  \      /   \    |  |  |  | |           ||  |  |  | |__ \  
-|  |  |  |    /  ^  \   |  |  |  | `---|  |----`|  |__|  |    ) | 
-|  |  |  |   /  /_\  \  |  |  |  |     |  |     |   __   |   / /  
-|  `--'  |  /  _____  \ |  `--'  |     |  |     |  |  |  |  / /_  
- \______/  /__/     \__\ \______/      |__|     |__|  |__| |____| 
-                                                                   
-API Azure
-(http://expressjs.com/)
+OAuth2 API Azure
+(https://github.com/Microsoft-Projects/oauth2-api-azure/)
 
-  Fast, unopinionated, minimalist web framework for [node](http://nodejs.org).
+  A node OAuth2 API on Azure wrapper supporting non-interactive and interactive authentication flow scenarios for [typescript](https://www.typescriptlang.org/).
 
-  [![NPM Version][npm-image]][npm-url]
-  [![NPM Downloads][downloads-image]][downloads-url]
-  [![Linux Build][travis-image]][travis-url]
-  [![Windows Build][appveyor-image]][appveyor-url]
-  [![Test Coverage][coveralls-image]][coveralls-url]
 
 ```js
-var express = require('express')
-var app = express()
+import * as oauth from "oauth2-api-azure";
+import * as authMiddleware from "oauth2-api-azure.middleware";
+import express = require("express");
+import session from "express-session";
 
-app.get('/', function (req, res) {
-  res.send('Hello World')
-})
+let app = express();
+app.use(session());
+
+// load auth settings
+const authSettings: IAuthSettings { ... }
+const passportAuthOptions: IPassportOptions { ... }
+
+// init auth params
+oauth.authInit(authSettings, validateUserRoleCallback);
+
+// init auth middleware
+const authMiddleware = new authentication.OAuthMiddleware(authSettings,passportAuthOptions, apiHostname, baseApiUrl);
+
+// add Auth routes
+app = authMiddleware.setAppHandler(app);
+
+app.get('/api/get',
+    // here goes the Azure OAuth2 Middleware
+    authMiddleware.authenticate(SecurityStrategies.BEARER),
+    (req, res) => {
+        res.send('Hello World');
+});
 
 app.listen(3000)
 ```
@@ -39,11 +48,14 @@ Installation is done using the
 [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
 ```bash
-$ npm install express
+$ npm install oauth2-api-azure
 ```
 
-Follow [our installing guide](http://expressjs.com/en/starter/installing.html)
-for more information.
+Before beginning, you must configure and register your Web API in your Azure AD subscription. It is also expected that you are a Global Admin on your Azure AD.
+Follow our [Azure AD Configuration Guide](GetStartedGuide.md) for more details.
+
+Then, use our [sample projects](./examples) with your Azure AD settings to run and test your secure Web API.
+
 
 ## Features
 
