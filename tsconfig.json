@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "outDir": "lib",
-    "rootDir": ".",
+    "outDir": "./lib",
+    "rootDir": "./src",
     "module": "commonjs",
     "esModuleInterop": true,
     "declaration": true,
@@ -19,6 +19,6 @@
     },
     "types": ["mocha", "node"]
   },
-  "exclude": ["./node_modules"],
-  "include": ["src/**/*", "test/**/*"]
+  "exclude": ["./node_modules", "./examples"],
+  "include": ["src/**/*.ts"]
 }

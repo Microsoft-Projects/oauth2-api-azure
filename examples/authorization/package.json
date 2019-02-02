@@ -1,5 +1,5 @@
 {
-  "name": "oauth2-usersignin",
+  "name": "oauth2-authorization",
   "version": "1.0.0",
   "description": "Sample API with OAuth2 User Authentication strategy",
   "main": "index.js",
@@ -20,6 +20,6 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "typescript": "^3.3.1",
-    "oauth2-api-azure": "^0.0.7"
+    "oauth2-api-azure": ">=0.1.5"
   }
 }

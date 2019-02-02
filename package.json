@@ -1,10 +1,8 @@
 {
   "name": "oauth2-api-azure",
   "description": "A node OAuth2 API on Azure Authentication and Authorization Role-Base-Access-Control (RBAC) wrapper providing support for OAuth2 token-based authentication and RBAC authorization scenarios.",
-  "version": "0.0.8",
+  "version": "1.0.0",
   "author": "Danny Garber <dannyg@microsoft.com>",
-  "main": "lib/oauth2-api-azure.js",
-  "types": "lib/types.d.ts",
   "contributors": [],
   "license": "MIT",
   "repository": {
@@ -26,6 +24,14 @@
     "url": "https://github.com/Microsoft-Projects/oauth2-api-azure/issues"
   },
   "homepage": "https://github.com/Microsoft-Projects/oauth2-api-azure#readme",
+  "main": "lib/index.js",
+  "files": [
+    "lib/**/*",
+    "LICENSE",
+    "History.md",
+    "AzureADConfigurationGuide.md",
+    "README.md"
+  ],
   "devDependencies": {
     "@microsoft/microsoft-graph-client": "^1.4.0",
     "@microsoft/microsoft-graph-types": "^1.6.0",
@@ -73,7 +79,7 @@
     "test": "mocha test --reporter mocha-junit-reporter",
     "nyctest": "nyc mocha",
     "watch": "mocha-typescript-watch",
-    "prepare": "tsc -p tsconfig.json",
+    "prepare": "npm run clean && tsc -p tsconfig.json",
     "check-format": "prettier --list-different \"./src/**/*.{ts,js,json,md}\"",
     "format": "prettier --write \"./**/*.{ts,js,json,md}\"",
     "lint": "tslint -p tsconfig.json",
@@ -94,13 +100,6 @@
       "git add"
     ]
   },
-  "files": [
-    "lib/",
-    "LICENSE",
-    "History.md",
-    "AzureADConfigurationGuide.md",
-    "README.md"
-  ],
   "nyc": {
     "check-coverage": false,
     "lines": 50,

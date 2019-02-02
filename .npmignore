@@ -60,9 +60,6 @@ typings/
 # next.js build output
 .next
 
-# built files
-lib
-
 # vscode generated files
 #.vscode
 *.code-workspace
@@ -70,4 +67,17 @@ lib
 #Visual Studio user's files
 *.njsproj*
 .vscode/*.*
+
+# Source files
+src/
+
+# Test files
+test/
+lib/test/*.*
+
+# Example files
+examples/
+
+# Docs
+doc/
 

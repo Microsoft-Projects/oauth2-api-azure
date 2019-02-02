@@ -4,9 +4,8 @@ import express from "express";
 import session from "express-session";
 import dotenv from "dotenv";
 import envalid from "envalid";
-import * as oauth from "oauth2-api-azure/index";
-import * as authentication from "../../../lib/src/middleware/security/authentication";
-import { IAuthSettings, SecurityStrategies } from "../../../lib/src/types";
+import * as oauth2 from "oauth2-api-azure";
+import { IAuthSettings, SecurityStrategies } from "oauth2-api-azure";
 
 dotenv.config();
 
@@ -84,10 +83,10 @@ app.use(
 );
 
 // initialize OAuth passport strategy
-oauth.authInit(authSettings, validateUserRoleCallback);
+oauth2.authInit(authSettings, validateUserRoleCallback);
 
 // initialize OAuth middleware
-const authMiddleware = new authentication.OAuthMiddleware(
+const authMiddleware = new oauth2.OAuthMiddleware(
   authSettings,
   passportAuthOptions,
   `${hostname}:${port}`,

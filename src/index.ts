@@ -4,6 +4,10 @@ import passport from "passport";
 import azureAd from "passport-azure-ad";
 import { IAuthSettings } from "./types";
 
+export * from "./types";
+export * from "./routes";
+export * from "./middleware/security/authentication";
+
 // max amount of state/nonce cookie you want to keep (cookie is deleted after validation so this can be very small)
 export const NonceMaxAmount = 5;
 // state/nonce cookie expiration in seconds
@@ -79,7 +83,7 @@ export async function authInit(
 
   const oidcStrategy = new azureAd.OIDCStrategy(
     oidsOptions,
-    (
+    async (
       request,
       iss,
       sub,
@@ -103,9 +107,11 @@ export async function authInit(
       }
 
       // Validate user's permissions
-      passToRBACCallback(
+      await passToRBACCallback(
+        request,
         user,
         iss,
+        sub,
         jwtClaims,
         params,
         request.session ? request.session.redirectUrl : null,
