@@ -22,10 +22,6 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(System.DefaultWorkingDirectory)'
-- task: Npm@1
-  inputs:
-    command: publish
-    publishEndpoint: 'NPMRegistry'
 
 - script: |
     rm -rf node_modules
@@ -42,3 +38,8 @@ steps:
 - script: |
     npm run copy
   displayName: 'Copy artefacts'
+
+- task: Npm@1
+  inputs:
+    command: publish
+    publishEndpoint: 'NPMRegistry'
