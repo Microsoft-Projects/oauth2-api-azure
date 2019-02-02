@@ -1,8 +1,10 @@
 {
-  "name": "@microsoft/oauth2-api-azure",
-  "description": "OAuth2 Azure AD wrapper supporting non-interactive and interactive scenarios for typescript.",
-  "version": "0.0.1",
+  "name": "oauth2-api-azure",
+  "description": "A node OAuth2 API on Azure Authentication and Authorization Role-Base-Access-Control (RBAC) wrapper providing support for OAuth2 token-based authentication and RBAC authorization scenarios.",
+  "version": "0.0.5",
   "author": "Danny Garber <dannyg@microsoft.com>",
+  "main": "lib/oauth2-api-azure.js",
+  "types": "lib/types.d.ts",
   "contributors": [],
   "license": "MIT",
   "repository": {
@@ -25,6 +27,8 @@
   },
   "homepage": "https://github.com/Microsoft-Projects/oauth2-api-azure#readme",
   "devDependencies": {
+    "@microsoft/microsoft-graph-client": "^1.4.0",
+    "@microsoft/microsoft-graph-types": "^1.6.0",
     "@types/chai": "^4.1.7",
     "@types/chai-as-promised": "^7.1.0",
     "@types/chai-subset": "^1.3.1",
@@ -36,44 +40,69 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-subset": "^1.6.0",
-    "eslint": "^5.12.1",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "jest": "^23.6.0",
     "jsonwebtoken": "^8.4.0",
+    "lint-staged": "^8.1.1",
     "mocha": "^5.2.0",
     "mocha-typescript": "^1.1.17",
     "nyc": "^13.1.0",
     "passport": "^0.4.0",
     "passport-azure-ad": "^4.0.0",
+    "prettier": "^1.16.3",
+    "rimraf": "^2.6.3",
     "sinon": "^7.2.3",
     "source-map-support": "^0.5.10",
     "ts-node": "^8.0.2",
-    "typescript": "^3.2.4"
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.1"
   },
-  "dependencies": {},
+  "dependencies": {
+    "gulp": "^4.0.0"
+  },
   "engines": {
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "lint": "eslint .",
-    "pretest": "tsc",
+    "build": "rimraf lib && npm run lint && npm run prepare && npm run copy",
+    "pretest": "npm run format && tsc",
     "test": "nyc mocha",
     "watch": "mocha-typescript-watch",
-    "prepare": "tsc -p tsconfig.json"
+    "prepare": "tsc -p tsconfig.json",
+    "check-format": "prettier --list-different \"./src/**/*.{ts,js,json,md}\"",
+    "format": "prettier --write \"./**/*.{ts,js,json,md}\"",
+    "lint": "tslint -p tsconfig.json",
+    "copy": "gulp copy",
+    "watch-changes": "gulp watch",
+    "clean": "rm -r lib && mkdir lib"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "npm run lint",
+      "npm run format",
+      "npm test",
+      "git add"
+    ]
   },
   "files": [
+    "lib/",
     "LICENSE",
     "History.md",
-    "README.md",
-    "index.js",
-    "lib/"
+    "AzureADConfigurationGuide.md",
+    "README.md"
   ],
   "nyc": {
-    "check-coverage": true,
-    "lines": 80,
-    "statements": 80,
-    "functions": 80,
-    "branches": 80,
+    "check-coverage": false,
+    "lines": 50,
+    "statements": 50,
+    "functions": 50,
+    "branches": 50,
     "include": [
       "lib/**/*.js"
     ],

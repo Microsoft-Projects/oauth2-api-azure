@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
-    "outDir": "lib",
-    "rootDir": ".",
+    "outDir": "dist",
+    "rootDir": "./",
     "module": "commonjs",
     "esModuleInterop": true,
-    "declaration": true,
     "target": "es6",
     "strict": true,
     "noImplicitAny": false,
@@ -20,5 +19,5 @@
     "types": ["mocha", "node"]
   },
   "exclude": ["./node_modules"],
-  "include": ["src/**/*", "test/**/*"]
+  "include": ["src", "test"]
 }

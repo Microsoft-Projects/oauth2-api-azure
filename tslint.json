@@ -1,21 +1,21 @@
 {
-    "defaultSeverity": "error",
-    "extends": ["tslint:recommended"],
-    "jsRules": {},
-    "rules": {
-        "trailing-comma": [false],
-        "object-literal-sort-keys": false,
-        "arrow-parens": false,
-        "ordered-imports": [false],
-        "variable-name": false,
-        "object-literal-key-quotes": false,
-        "interface-name": false,
-        "member-ordering": false,
-        "jsdoc-format": false,
-        "no-console": false
-    },
-    "rulesDirectory": [],
-    "linterOptions": {
-        "exclude": ["public/**/*"]
-    }
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended"],
+  "jsRules": {},
+  "rules": {
+    "trailing-comma": [false],
+    "object-literal-sort-keys": false,
+    "arrow-parens": false,
+    "ordered-imports": [false],
+    "variable-name": false,
+    "object-literal-key-quotes": false,
+    "interface-name": false,
+    "member-ordering": false,
+    "jsdoc-format": false,
+    "no-console": false
+  },
+  "rulesDirectory": [],
+  "linterOptions": {
+    "exclude": ["lib/**/*"]
+  }
 }
