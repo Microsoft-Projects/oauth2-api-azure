@@ -1,7 +1,7 @@
 {
   "name": "oauth2-api-azure",
   "description": "A node OAuth2 API on Azure Authentication and Authorization Role-Base-Access-Control (RBAC) wrapper providing support for OAuth2 token-based authentication and RBAC authorization scenarios.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": "Danny Garber <dannyg@microsoft.com>",
   "main": "lib/oauth2-api-azure.js",
   "types": "lib/types.d.ts",
