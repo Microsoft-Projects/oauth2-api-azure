@@ -12,10 +12,33 @@ pool:
 steps:
 - task: NodeTool@0
   inputs:
-    versionSpec: '8.x'
+    versionSpec: '10.x'
   displayName: 'Install Node.js'
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testRunner: JUnit
+    testResultsFiles: '**/test-results.xml'
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)/lib'
+    Contents: |
+      **\*.ts
+      **\*.js
+      package.json
+      LICENSE
+      README.md
+      AzureADConfigurationGuide.md
+      History.md
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
 
 - script: |
-    npm install
+    npm install -g npm@6.5.0
+    npm install --only=dev
+    npm install -g gulp
     npm run build
   displayName: 'npm install and build'
+- script: npm publish
+  displayName: 'Publish a module to NPM registry'

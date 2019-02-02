@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.016" tests="6" failures="0">
+  <testsuite name="Root Suite" timestamp="2019-02-02T07:33:08" tests="0" failures="0" time="0">
+  </testsuite>
+  <testsuite name="OAuthMiddlewareTest" timestamp="2019-02-02T07:33:08" tests="2" file="D:\Microsoft\Projects\oauth2-api-azure\lib\test\authenticationTest.js" failures="0" time="0.004">
+    <testcase name="OAuthMiddlewareTest A middleware setAppHandler should be a function" time="0.003" classname="A middleware setAppHandler should be a function">
+    </testcase>
+    <testcase name="OAuthMiddlewareTest A middleware authentication should be a function" time="0.001" classname="A middleware authentication should be a function">
+    </testcase>
+  </testsuite>
+  <testsuite name="request handler calling" timestamp="2019-02-02T07:33:08" tests="1" file="D:\Microsoft\Projects\oauth2-api-azure\lib\test\authenticationTest.js" failures="0" time="0.004">
+    <testcase name="request handler calling should call next()" time="0.004" classname="should call next()">
+    </testcase>
+  </testsuite>
+  <testsuite name="test client id" timestamp="2019-02-02T07:33:08" tests="3" file="D:\Microsoft\Projects\oauth2-api-azure\lib\test\authInitTest.js" failures="0" time="0.008">
+    <testcase name="test client id authInit() throws an error when missing client id" time="0.002" classname="authInit() throws an error when missing client id">
+    </testcase>
+    <testcase name="test client id authInit() throws an error when missing client secret" time="0.006" classname="authInit() throws an error when missing client secret">
+    </testcase>
+    <testcase name="test client id authInit() throws an error when redirect Uri is not valid" time="0" classname="authInit() throws an error when redirect Uri is not valid">
+    </testcase>
+  </testsuite>
+</testsuites>

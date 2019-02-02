@@ -2,11 +2,9 @@
 
 [Find it on GitHub](https://github.com/Microsoft-Projects/oauth2-api-azure/)
 
-A node OAuth2 API on Azure Authentication and Authorization Role-Base-Access-Control (RBAC) wrapper providing support for OAuth2 token-based authentication and RBAC authorization scenarios for [typescript]
-(https://www.typescriptlang.org/).
+A node OAuth2 API on Azure Authentication and Authorization Role-Base-Access-Control (RBAC) wrapper providing support for OAuth2 token-based authentication and RBAC authorization scenarios for [typescript](https://www.typescriptlang.org/).
 
 [![Build Status](https://dev.azure.com/csedevs/oauth2-api-azure/_apis/build/status/Microsoft-Projects.oauth2-api-azure?branchName=master)](https://dev.azure.com/csedevs/oauth2-api-azure/_build/latest?definitionId=1&branchName=master)
-
 
 <br>
 
