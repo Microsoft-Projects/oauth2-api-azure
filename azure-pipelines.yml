@@ -27,6 +27,7 @@ steps:
     npm install -g npm@6.5.0
     npm install --only=dev
     npm install -g gulp
+    npm install -g rimraf
     npm run build
   displayName: 'npm install and build'
 - script: npm publish
