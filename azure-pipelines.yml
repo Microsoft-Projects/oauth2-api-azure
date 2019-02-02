@@ -24,7 +24,8 @@ steps:
     PathtoPublish: '$(System.DefaultWorkingDirectory)'
 
 - script: |
-    npm install -g npm@6.5.0
+    rm -rf node_modules
+    rm package-lock.json
     npm install --only=dev
     npm install -g gulp
     npm install -g rimraf
