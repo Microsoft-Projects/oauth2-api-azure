@@ -28,12 +28,7 @@ steps:
     rm package-lock.json
     npm install --only=dev
     npm install -g gulp
-    npm install -g glob
-    npm install -g rimraf
   displayName: 'npm install'
-- script: |
-    npm run clean
-  displayName: 'Clean Lib directory'
 - script: |
     npm run build
   displayName: 'Build project'
