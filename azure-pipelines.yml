@@ -19,20 +19,9 @@ steps:
   inputs:
     testRunner: JUnit
     testResultsFiles: '**/test-results.xml'
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)/lib'
-    Contents: |
-      **\*.ts
-      **\*.js
-      package.json
-      LICENSE
-      README.md
-      AzureADConfigurationGuide.md
-      History.md
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
 - task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(System.DefaultWorkingDirectory)'
 
 - script: |
     npm install -g npm@6.5.0
