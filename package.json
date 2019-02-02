@@ -66,7 +66,8 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "build": "rimraf lib && npm run lint && npm test && npm run copy",
+    "build": "npm run lint && npm run prepare",
+    "full-build": "npm run clean && npm run lint && npm test && npm run copy",
     "build-dev": "rimraf lib && npm run lint && npm run copy",
     "pretest": "npm run format && tsc",
     "test": "mocha test --reporter mocha-junit-reporter",
@@ -78,7 +79,7 @@
     "lint": "tslint -p tsconfig.json",
     "copy": "gulp copy",
     "watch-changes": "gulp watch",
-    "clean": "rm -r lib && mkdir lib"
+    "clean": "rimraf lib"
   },
   "husky": {
     "hooks": {

@@ -29,7 +29,18 @@ steps:
     npm install --only=dev
     npm install -g gulp
     npm install -g rimraf
+  displayName: 'npm install'
+- script: |
+    npm run clean
+  displayName: 'Clean Lib directory'
+- script: |
     npm run build
-  displayName: 'npm install and build'
+  displayName: 'Build project'
+- script: |
+    npm test
+  displayName: 'Run Unit Tests'
+- script: |
+    npm run copy
+  displayName: 'Copy artefacts'
 - script: npm publish
-  displayName: 'Publish a module to NPM registry'
+  displayName: 'Publish to NPM registry'
