@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 import passport from "passport";
 import azureAd from "passport-azure-ad";
 import { IAuthSettings } from "./types";

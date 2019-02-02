@@ -1,5 +1,5 @@
 {
-  "name": "oauth2-api-azure",
+  "name": "@microsoft/oauth2-api-azure",
   "description": "OAuth2 Azure AD wrapper supporting non-interactive and interactive scenarios for typescript.",
   "version": "0.0.1",
   "author": "Danny Garber <dannyg@microsoft.com>",

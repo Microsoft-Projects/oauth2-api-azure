@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import express = require("express");
 import session from "express-session";
 import passport = require("passport");

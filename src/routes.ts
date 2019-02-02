@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import express = require("express");
 import passport = require("passport");
 import { Logger } from "./middleware/server-config/Logging";
