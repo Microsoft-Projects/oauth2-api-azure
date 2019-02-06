@@ -7,12 +7,8 @@ import { suite, test } from "mocha-typescript";
 import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 import * as sinon from "sinon";
-import { OAuthMiddleware } from "../../src/middleware/security/authentication";
-import {
-  IAuthSettings,
-  IPassportOptions,
-  SecurityStrategies,
-} from "../../src/types";
+import { OAuthMiddleware } from "../middleware/security/authentication";
+import { IAuthSettings, IPassportOptions, SecurityStrategies } from "../types";
 
 chai.use(chaiAsPromised);
 

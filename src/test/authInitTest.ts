@@ -3,8 +3,8 @@
 import { suite, test } from "mocha-typescript";
 import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { authInit } from "../../src";
-import { IAuthSettings } from "../../src/types";
+import { authInit } from "../index";
+import { IAuthSettings } from "../types";
 
 chai.use(chaiAsPromised);
 
